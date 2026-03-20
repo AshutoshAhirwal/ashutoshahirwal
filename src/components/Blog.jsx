@@ -35,8 +35,12 @@ const Blog = () => {
 
     let t = 0;
     let frameId = null;
+    let isVis = true;
+    const obs = new IntersectionObserver(e => isVis = e[0].isIntersecting, {threshold: 0});
+    if (typeof el !== 'undefined' && el) obs.observe(el);
     const loop = () => {
       frameId = requestAnimationFrame(loop);
+      if (!isVis) return;
       t += 0.009;
       for (let i = 0; i < pos.count; i++) {
         const x = pos.getX(i), z = pos.getZ(i);
@@ -75,6 +79,7 @@ const Blog = () => {
     });
 
     return () => {
+      if (typeof obs !== 'undefined') obs.disconnect();
       if (frameId !== null) cancelAnimationFrame(frameId);
       window.removeEventListener('resize', handleResize);
       ctx.revert();

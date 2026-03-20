@@ -100,8 +100,12 @@ const Hero = () => {
 
     let t = 0;
     let frameId = null;
+    let isVis = true;
+    const obs = new IntersectionObserver(e => isVis = e[0].isIntersecting, {threshold: 0});
+    if (typeof el !== 'undefined' && el) obs.observe(el);
     const loop = () => {
       frameId = requestAnimationFrame(loop);
+      if (!isVis) return;
       t += 0.006;
       drop.rotation.y = t * 0.35 + mx * 0.12;
       drop.rotation.x = my * 0.08 + Math.sin(t * 0.3) * 0.04;
@@ -180,6 +184,7 @@ const Hero = () => {
     });
 
     return () => {
+      if (typeof obs !== 'undefined') obs.disconnect();
       if (frameId !== null) cancelAnimationFrame(frameId);
       document.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', handleResize);

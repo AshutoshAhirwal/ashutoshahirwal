@@ -119,8 +119,12 @@ const Skills = () => {
 
     let t = 0;
     let frameId = null;
+    let isVis = true;
+    const obs = new IntersectionObserver(e => isVis = e[0].isIntersecting, {threshold: 0});
+    if (typeof el !== 'undefined' && el) obs.observe(el);
     const loop = () => {
       frameId = requestAnimationFrame(loop);
+      if (!isVis) return;
       t += 0.007;
 
       orbs.forEach(g => {
@@ -202,6 +206,7 @@ const Skills = () => {
     });
 
     return () => {
+      if (typeof obs !== 'undefined') obs.disconnect();
       if (frameId !== null) cancelAnimationFrame(frameId);
       orbCv.removeEventListener('mousemove', onMouseMove);
       orbCv.removeEventListener('mouseleave', onMouseLeave);
