@@ -122,7 +122,7 @@ const Contact = () => {
             </a>
             <div className="ci-link" style={{ cursor: 'default', borderStyle: 'dashed', opacity: 0.7 }}>
               <div className="ci-icon">📍</div>
-              <div><div className="ci-label">Location</div><div className="ci-val">Jaipur, Rajasthan · Remote-friendly ⚡</div></div>
+              <div><div className="ci-label">Location</div><div className="ci-val">Indore, Madhya Pradesh · Remote-friendly ⚡</div></div>
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ const Contact = () => {
           </div>
           <div className="cf-field">
             <label className="cf-label">Project Type</label>
-            <input className="cf-input" type="text" name="_subject_custom" placeholder="Drupal theming / SDC / migration..." required />
+            <input className="cf-input" type="text" name="project_type" placeholder="Drupal theming / SDC / migration..." required />
           </div>
           <div className="cf-field">
             <label className="cf-label">Message</label>

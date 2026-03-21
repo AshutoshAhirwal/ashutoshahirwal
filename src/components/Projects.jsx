@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 const pcfg = [
-  { bg: 0x090612, c: 0x00adee, shape: 'drop' },
+  { bg: 0x090612, c: 0x00adee, shape: 'sphere-pts' },
   { bg: 0x06080f, c: 0xa78bfa, shape: 'knot' },
   { bg: 0x060d08, c: 0x4ade80, shape: 'oct' },
   { bg: 0x0d0a04, c: 0xfbbf24, shape: 'torus' },
@@ -34,17 +34,20 @@ const ProjectCard = ({ index, tag, title, tech }) => {
       cam = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
       cam.position.z = 5;
 
-      if (cfg.shape === 'drop') {
+      if (cfg.shape === 'sphere-pts') {
         const pts = [];
-        for (let lat = 0; lat < Math.PI * 0.85; lat += 0.12) {
-          const r = 1.2 + Math.sin(lat * 1.2) * 0.5;
-          for (let i = 0; i < Math.floor(r * 10); i++) {
-            const a = (i / Math.floor(r * 10)) * Math.PI * 2;
-            pts.push(Math.cos(a) * r, lat * 2.2 - 1.5, Math.sin(a) * r * 0.45);
-          }
+        const n = 400;
+        for (let i = 0; i < n; i++) {
+          const phi = Math.acos(-1 + (2 * i) / n);
+          const theta = Math.sqrt(n * Math.PI) * phi;
+          pts.push(
+            1.5 * Math.cos(theta) * Math.sin(phi),
+            1.5 * Math.sin(theta) * Math.sin(phi),
+            1.5 * Math.cos(phi)
+          );
         }
         const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts), 3));
-        main = new THREE.Points(g, new THREE.PointsMaterial({ color: cfg.c, size: 0.09, transparent: true, opacity: 0.85 }));
+        main = new THREE.Points(g, new THREE.PointsMaterial({ color: cfg.c, size: 0.08, transparent: true, opacity: 0.8 }));
       } else if (cfg.shape === 'knot') {
         main = new THREE.Mesh(new THREE.TorusKnotGeometry(1.2, 0.3, 80, 10, 2, 3), new THREE.MeshStandardMaterial({ color: cfg.c, wireframe: true, transparent: true, opacity: 0.6 }));
       } else if (cfg.shape === 'oct') {
@@ -200,7 +203,7 @@ const Projects = () => {
   return (
     <section className="ps" id="s3" style={{ minHeight: 'auto', padding: 0 }}>
       <canvas className="sc" ref={bgCanvasRef}></canvas>
-      <div className="si" style={{ padding: '100px 52px 80px', maxWidth: '100%' }}>
+      <div className="si pc-si">
         <div className="slbl">// Chapter 03 — Real Work, Real Clients</div>
         <h2 className="stit" style={{ fontSize: 'clamp(30px, 5vw, 54px)', marginBottom: '36px' }}>Built & <span style={{ color: 'var(--acc)' }}>shipped.</span></h2>
         <div className="proj-grid">

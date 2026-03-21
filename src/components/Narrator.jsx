@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import gsap from 'gsap';
 
 const narratorScripts = [
-  { lines: ["Hey! I'm the <b>Drupal drop</b> 👋", "I'm here to guide you through<br><b>Ashutosh's</b> world!", "Click me anytime for<br>more about him 😊"] },
+  { lines: ["Hey! I'm the <b>Digital Monogram</b> 👋", "I'm here to guide you through<br><b>Ashutosh's</b> world!", "Click me anytime for<br>more about him 😊"] },
   { lines: ["Ashutosh started with<br><b>Drupal in 2016</b> 💙", "He's a night owl who dreams<br>of riding to <b>Leh-Ladakh</b> 🏍️", "And yes — there is NO<br>such thing as <b>too much cheese</b> 🧀"] },
   { lines: ["<b>Hover the glowing orbs</b><br>to explore his skills!", "Each orb = a skill.<br>Bigger = more expertise.", "<b>Drupal is the biggest</b><br>for a good reason 😄"] },
   { lines: ["These are <b>real clients</b><br>Ashutosh has worked with!", "Apollo Hospitals, Nerivio,<br><b>SEMI, Great Southern Homes</b>...", "Hover each card to<br>see the tech stack 🚀"] },
@@ -48,22 +48,12 @@ const Narrator = () => {
     <div id="narrator">
       <div id="nb" className={show ? 'show' : ''}>
         <span dangerouslySetInnerHTML={{ __html: narratorScripts[curSec]?.lines[lineIdx] }} />
-        <span className="nb-tip">Click drop for next →</span>
+        <span className="nb-tip">Click monogram for next →</span>
       </div>
-      <svg id="nd" viewBox="0 0 80 100" onClick={cycleNarrator} style={{ pointerEvents: 'all' }}>
-        <defs>
-          <radialGradient id="dg" cx="38%" cy="30%">
-            <stop offset="0%" stopColor="#33c9f7" />
-            <stop offset="100%" stopColor="#0078a8" />
-          </radialGradient>
-        </defs>
-        <path d="M40 2C40 2 8 34 8 56C8 76 22.5 94 40 94C57.5 94 72 76 72 56C72 34 40 2 40 2Z" fill="url(#dg)" />
-        <ellipse cx="30" cy="54" rx="10" ry="11" fill="white" opacity=".95" />
-        <ellipse cx="30" cy="54" rx="5" ry="5.5" fill="#0078a8" />
-        <ellipse cx="31" cy="52" rx="2.2" ry="2.5" fill="white" />
-        <ellipse cx="52" cy="60" rx="7" ry="8" fill="white" opacity=".6" />
-        <path d="M33 76C33 76 40 82 47 76" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity=".85" />
-        <ellipse cx="34" cy="17" rx="5" ry="8" fill="white" opacity=".12" transform="rotate(-22 34 17)" />
+      <svg id="nd" viewBox="0 0 32 32" onClick={cycleNarrator} style={{ pointerEvents: 'all' }}>
+        <path d="M4 26L12 4L20 26M6 18H18" stroke="var(--acc)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M14 26L22 4L30 26M16 18H28" stroke="var(--acc2)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+        <circle cx="16" cy="16" r="14" stroke="var(--acc)" strokeWidth="1" strokeDasharray="4 4" opacity="0.15" />
       </svg>
     </div>
   );

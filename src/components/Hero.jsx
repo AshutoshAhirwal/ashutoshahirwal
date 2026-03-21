@@ -22,36 +22,29 @@ const Hero = () => {
     const cam = new THREE.PerspectiveCamera(60, W / H, 0.1, 300);
     cam.position.set(0, 0, 22);
 
-    /* Drupal drop shape as particle cloud — right side */
-    const dropPts = [];
-    for (let lat = 0; lat < Math.PI * 0.9; lat += 0.07) {
-      const baseR = 4.5 + Math.sin(lat * 1.2) * 1.8;
-      const stretch = 0.45 + lat / Math.PI * 0.2;
-      const yOff = lat * 3.2 - 7;
-      const count = Math.max(4, Math.floor(baseR * 8));
-      for (let i = 0; i < count; i++) {
-        const a = (i / count) * Math.PI * 2;
-        dropPts.push(
-          Math.cos(a) * baseR + (Math.random() - 0.5) * 0.3,
-          yOff + (Math.random() - 0.5) * 0.25,
-          Math.sin(a) * baseR * stretch + (Math.random() - 0.5) * 0.3
-        );
-      }
-    }
-    /* drip tip */
-    for (let y = 0; y < 3.5; y += 0.18) {
-      const r = Math.max(0.08, 0.5 * (1 - y / 3.5));
-      for (let i = 0; i < 6; i++) {
-        const a = (i / 6) * Math.PI * 2;
-        dropPts.push(Math.cos(a) * r, y + 9.4, Math.sin(a) * r * 0.45);
+    /* Digital Architecture lattice as particle cloud — right side */
+    const latticePts = [];
+    const gridSize = 8, spacing = 1.8;
+    for (let x = 0; x < gridSize; x++) {
+      for (let y = 0; y < gridSize; y++) {
+        for (let z = 0; z < gridSize; z++) {
+          // Only create points on the "shell" or structured intersections
+          if ((x % (gridSize-1) === 0) || (y % (gridSize-1) === 0) || (z % (gridSize-1) === 0)) {
+            latticePts.push(
+              (x - gridSize / 2) * spacing + (Math.random() - 0.5) * 0.1,
+              (y - gridSize / 2) * spacing + (Math.random() - 0.5) * 0.1,
+              (z - gridSize / 2) * spacing + (Math.random() - 0.5) * 0.1
+            );
+          }
+        }
       }
     }
 
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(dropPts), 3));
-    const drop = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0x00adee, size: 0.09, transparent: true, opacity: 0.65 }));
-    drop.position.set(9, -0.5, 0);
-    scene.add(drop);
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(latticePts), 3));
+    const lattice = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0x00adee, size: 0.1, transparent: true, opacity: 0.7 }));
+    lattice.position.set(9, 0, 0);
+    scene.add(lattice);
 
     /* interconnected constellation lines for hero */
     const connPts = [];
@@ -107,8 +100,8 @@ const Hero = () => {
       frameId = requestAnimationFrame(loop);
       if (!isVis) return;
       t += 0.006;
-      drop.rotation.y = t * 0.35 + mx * 0.12;
-      drop.rotation.x = my * 0.08 + Math.sin(t * 0.3) * 0.04;
+      lattice.rotation.y = t * 0.25 + mx * 0.12;
+      lattice.rotation.x = t * 0.15 + my * 0.08 + Math.sin(t * 0.3) * 0.04;
       cam.position.x += (mx * 2.5 - cam.position.x) * 0.03;
       cam.position.y += (my * 1.5 - cam.position.y) * 0.03;
       cam.lookAt(0, 0, 0);
@@ -209,7 +202,7 @@ const Hero = () => {
       <div className="si">
         <div>
           <div className="badge"><span className="bdot"></span>Senior Drupal Dev · Open to work · Indore, India</div>
-          <h1 className="stit" style={{ fontSize: 'clamp(52px, 9vw, 108px)', marginBottom: '20px' }}>
+          <h1 className="stit" style={{ fontSize: 'clamp(42px, 9vw, 108px)', marginBottom: '20px' }}>
             <span style={{ color: 'var(--tx)', display: 'block', overflow: 'hidden' }}>
               <span className="hero-word" style={{ display: 'block' }}>Ashutosh</span>
             </span>

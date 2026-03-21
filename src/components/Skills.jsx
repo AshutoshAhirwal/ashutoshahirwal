@@ -235,7 +235,7 @@ const Skills = () => {
         <div className="slbl" style={{ gridColumn: '1/-1' }}>// Chapter 02 — The Arsenal</div>
         <h2 className="stit" style={{ fontSize: 'clamp(30px, 5vw, 54px)', gridColumn: '1/-1', marginBottom: '0px' }}>Skills that <span style={{ color: 'var(--acc)' }}>ship products.</span></h2>
         <p style={{ gridColumn: '1/-1', fontSize: '18px', color: 'var(--mt)', marginBottom: '32px' }}>The strongest layer is Drupal frontend architecture:</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }}>
+        <div className="skills-box">
           <div>
             <p style={{ fontFamily: 'DM Mono, monospace', fontSize: '10px', color: 'var(--mt)', marginBottom: '12px', letterSpacing: '.1em' }}>HOVER THE ORBS — EACH ONE IS A SKILL ↓</p>
             <div id="orb-wrap" ref={orbWrapRef}>

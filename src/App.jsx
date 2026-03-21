@@ -28,6 +28,40 @@ const App = () => {
     }
   }, [isVisualMode]);
 
+  /* ── SECURITY DETERRENTS ── */
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    const handleKeyDown = (e) => {
+      if (
+        e.keyCode === 123 || 
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+        (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+        (e.ctrlKey && e.keyCode === 85) ||
+        (e.metaKey && e.keyCode === 85)
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Aggressive Debugger Trap: Pauses execution if DevTools is opened
+    const deterrent = setInterval(() => {
+      const start = performance.now();
+      debugger; 
+      if (performance.now() - start > 100) {
+        // DevTools likely open
+      }
+    }, 500);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      clearInterval(deterrent);
+    };
+  }, []);
+
   useEffect(() => {
     let ctx = gsap.context(() => {
       /* ── PAGE LOAD SEQUENCE ── */
@@ -178,7 +212,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="portfolio-app">
+    <div className="portfolio-app" onCopy={(e)=>e.preventDefault()} onCut={(e)=>e.preventDefault()} onPaste={(e)=>e.preventDefault()}>
       <CustomCursor />
       <Navbar />
       <SideTracker />
